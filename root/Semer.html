@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Little Khinkali Question 💗</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            cursor: url("fluttershy-cursor.png") 16 16, auto;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px 15px;
+            overflow-x: hidden;
+
+            font-family: "Trebuchet MS", Arial, sans-serif;
+            color: #76566c;
+
+            background:
+                linear-gradient(
+                    rgba(255, 231, 241, 0.42),
+                    rgba(255, 241, 222, 0.48)
+                ),
+                url("fluttershy-wallpaper.jpg");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        button {
+            cursor: url("fluttershy-cursor.png") 16 16, pointer;
+            font-family: inherit;
+        }
+
+        .card {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 520px;
+            padding: 35px 28px;
+            text-align: center;
+
+            background: rgba(255, 250, 253, 0.95);
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            border-radius: 28px;
+
+            box-shadow: 0 12px 40px rgba(190, 126, 160, 0.25);
+            backdrop-filter: blur(6px);
+        }
+
+        .tiny-hearts {
+            font-size: 22px;
+            letter-spacing: 8px;
+            margin-bottom: 14px;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+
+        .eyebrow {
+            margin-bottom: 10px;
+            color: #c58aa8;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            color: #d47fa4;
+            font-size: clamp(27px, 6vw, 36px);
+            margin: 0 0 16px;
+            line-height: 1.3;
+        }
+
+        .intro {
+            font-size: 16px;
+            line-height: 1.75;
+            margin: 0 auto 18px;
+            max-width: 400px;
+        }
+
+        .fact-label {
+            display: inline-block;
+            padding: 7px 13px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+            background: #ffedf5;
+            color: #bf7599;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .khinkali-picture {
+            display: block;
+            width: 155px;
+            height: 130px;
+            object-fit: contain;
+            margin: 15px auto 18px;
+            filter: drop-shadow(0 5px 7px rgba(150, 100, 100, 0.15));
+            animation: bob 3s ease-in-out infinite;
+        }
+
+        h2 {
+            color: #bd7295;
+            font-size: 23px;
+            line-height: 1.4;
+            margin: 12px 0;
+        }
+
+        .subtext {
+            color: #a18496;
+            font-size: 14px;
+            line-height: 1.65;
+            margin: 12px auto 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 22px;
+            border: none;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: bold;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .next-button,
+        .yes-button {
+            color: white;
+            background: #f09cbd;
+            box-shadow: 0 5px 12px rgba(219, 126, 167, 0.25);
+        }
+
+        .next-button:hover,
+        .yes-button:hover {
+            background: #e581aa;
+            transform: translateY(-3px) scale(1.03);
+        }
+
+        .buttons {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+
+            width: 100%;
+            min-height: 110px;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .yes-button {
+            position: relative;
+            z-index: 2;
+            min-width: 120px;
+        }
+
+        .no-button {
+            position: absolute;
+            left: calc(50% + 10px);
+            top: 50%;
+            z-index: 3;
+            transform: translateY(-50%);
+
+            min-width: 105px;
+            color: #997e91;
+            background: #f0e4f0;
+            border: 1px solid #e7d5e7;
+
+            transition: left 0.28s ease, top 0.28s ease;
+        }
+
+        .no-button.dodging {
+            animation: dodgeHop 0.3s ease;
+        }
+
+        .footer {
+            margin-top: 15px;
+            color: #c49ab1;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .pony {
+            position: fixed;
+            z-index: 1;
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            pointer-events: none;
+            animation: floatPony 5s ease-in-out infinite;
+        }
+
+        .pony-one {
+            top: 7%;
+            left: 5%;
+            size: 400
+            px;
+        }
+
+        .pony-two {
+            width: 600px;
+            height: 600px;
+            right: 5%;
+            bottom: 8%;
+            animation-delay: -2.5s;
+            opacity:2;
+        }
+
+        .pony-three {
+            right: 9%;
+            top: 12%;
+            width: 50px;
+            height: 50px;
+            animation-delay: -1s;
+        }
+
+        .floating-heart {
+            position: fixed;
+            z-index: 1;
+            bottom: -40px;
+            pointer-events: none;
+            opacity: 0;
+            animation: floatHeart linear forwards;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.55s ease both;
+        }
+
+        .success h1 {
+            margin-bottom: 15px;
+        }
+
+        .success p {
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .success-pony {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin-top: 8px;
+        }
+
+        .celebration-pony {
+            position: fixed;
+            z-index: 10;
+            bottom: -70px;
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            pointer-events: none;
+            animation: riseUp 4s ease-in forwards;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
+
+        @keyframes bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        @keyframes floatPony {
+            0%, 100% { transform: translateY(0) rotate(-4deg); }
+            50% { transform: translateY(-13px) rotate(4deg); }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            15% { opacity: 0.8; }
+            85% { opacity: 0.7; }
+            100% {
+                transform: translateY(-115vh) rotate(35deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes dodgeHop {
+            0% { scale: 1; }
+            45% { scale: 0.88; }
+            100% { scale: 1; }
+        }
+
+        @keyframes riseUp {
+            0% {
+                transform: translateY(0) rotate(0);
+                opacity: 0;
+            }
+            15% { opacity: 1; }
+            100% {
+                transform: translateY(-120vh) rotate(35deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 28px 18px;
+            }
+
+            .intro {
+                font-size: 15px;
+            }
+
+            h2 {
+                font-size: 21px;
+            }
+
+            .btn {
+                padding: 12px 17px;
+            }
+
+            .pony {
+                width: 48px;
+                height: 48px;
+            }
+
+            .pony-three {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Fluttershy decorations -->
+    <img class="pony pony-one" src="khinkali1.jpg" alt="">
+    <img class="pony pony-two" src="4xengel.webp" alt="">
+    <img class="pony pony-three" src="xengel5.jpeg" alt="">
+
+    <main class="card">
+
+        <!-- SCREEN 1: KHINKALI FUN FACT -->
+        <section id="factScreen" class="screen active">
+
+            <div class="tiny-hearts">♡ ♥ ♡</div>
+
+            <div class="eyebrow">Before we begin...</div>
+
+            <h1>Did you know? 👀</h1>
+
+            <div class="fact-label">Khinkali fact of the day</div>
+
+            <p class="intro">
+                bilirsen ki men xengel cox sevirem 
+                xengel cox dadlidir
+                xengel texmini 1 milyon il bundan evvel qafqaz sira daglarinda yasayan 
+                ehali terefinden ixtira olunub
+
+            </p>
+
+            <img
+                class="khinkali-picture"
+                src="po dumpling.webp"
+                alt="Khinkali"
+            >
+
+            <p class="subtext">
+                heckim bilmir ki eslden necenci ilde yaranib amma mence insanlardan daha kohnediler
+                neyse bununla elaqesiz sualim olacey
+            </p>
+
+            <button class="btn next-button" id="nextButton" type="button">
+                 aha esidirem
+            </button>
+
+            <div class="footer">
+                  enjoy this fun fact that took me  3 minutes to write and 3 hours to find the right khinkali picture for it ♡
+                         </div>
+
+        </section>
+
+        <!-- SCREEN 2: INVITATION -->
+        <section id="invitationScreen" class="screen">
+
+            <div class="tiny-hearts">♡ ♥ ♡</div>
+
+            <h1>Salam Semer 💗&#128512;</h1>
+
+            <p class="intro">
+                sen demisdin ki meni ikna elemelisen xengel ucun 
+                Sooo, I was thinking... since its raining and the weather is xengel havasi
+                we should go eat  xengel this  sunday together
+            </p>
+
+            <img
+                class="khinkali-picture"
+                src="xengel.jpg"
+                alt="Khinkali"
+            >
+
+            <h2>Wanna go with me? xoxo</h2>
+
+            <p class="subtext">
+                Just us, xengel, and lots of talking together.
+            </p>
+
+            <div class="buttons" id="buttonArea">
+
+                <button class="btn yes-button" id="yesButton" type="button">
+                    Yes!! 💗
+                </button>
+
+                <button class="btn no-button" id="noButton" type="button">
+                    Yo el cek 🙄
+                </button>
+
+            </div>
+
+            <div class="footer">
+                made with a tiny bit of courage and lots of Fluttershy xoxo
+            </div>
+
+        </section>
+
+        <!-- SCREEN 3: SUCCESS -->
+        <section id="successScreen" class="screen success">
+
+            <div class="tiny-hearts">♡ ♥ ♡ ♥ ♡</div>
+
+            <h1>hehehehe bilirdim bele olacaq 💗</h1>
+
+            <p>
+                ill pick u up at 15:00 sonra da gedib xengel basacayiq
+                <br><br>
+                belke de yaninda duses ve biraz xacapuri
+                <br>
+                i will see u sunday!!
+            </p>
+
+            <img
+                class="khinkali-picture"
+                src="xengel7.jpg"
+                alt="Khinkali"
+            >
+
+            <img
+                class="success-pony"
+                src="fluttershyjumping.jpg"
+                alt="Fluttershy"
+            >
+
+            
+
+        </section>
+
+    </main>
+
+    <script>
+        const factScreen = document.getElementById("factScreen");
+        const invitationScreen = document.getElementById("invitationScreen");
+        const successScreen = document.getElementById("successScreen");
+
+        const nextButton = document.getElementById("nextButton");
+        const yesButton = document.getElementById("yesButton");
+        const noButton = document.getElementById("noButton");
+        const buttonArea = document.getElementById("buttonArea");
+
+        function showScreen(screenToShow) {
+            document.querySelectorAll(".screen").forEach(function(screen) {
+                screen.classList.remove("active");
+            });
+
+            screenToShow.classList.add("active");
+        }
+
+        // Move from the fun fact to the invitation.
+        nextButton.addEventListener("click", function() {
+            showScreen(invitationScreen);
+        });
+
+        // The No button dodges, but stays inside the invitation card's button area.
+        function moveNoButton() {
+            const areaWidth = buttonArea.clientWidth;
+            const areaHeight = buttonArea.clientHeight;
+
+            const buttonWidth = noButton.offsetWidth;
+            const buttonHeight = noButton.offsetHeight;
+
+            const maxLeft = Math.max(0, areaWidth - buttonWidth);
+            const maxTop = Math.max(0, areaHeight - buttonHeight);
+
+            const yesRect = yesButton.getBoundingClientRect();
+            const areaRect = buttonArea.getBoundingClientRect();
+
+            let newLeft = 0;
+            let newTop = 0;
+
+            for (let i = 0; i < 20; i++) {
+                newLeft = Math.random() * maxLeft;
+                newTop = Math.random() * maxTop;
+
+                const candidate = {
+                    left: areaRect.left + newLeft,
+                    right: areaRect.left + newLeft + buttonWidth,
+                    top: areaRect.top + newTop,
+                    bottom: areaRect.top + newTop + buttonHeight
+                };
+
+                const overlapsYes =
+                    candidate.left < yesRect.right + 8 &&
+                    candidate.right > yesRect.left - 8 &&
+                    candidate.top < yesRect.bottom + 8 &&
+                    candidate.bottom > yesRect.top - 8;
+
+                if (!overlapsYes) {
+                    break;
+                }
+            }
+
+            noButton.style.left = newLeft + "px";
+            noButton.style.top = newTop + "px";
+            noButton.style.transform = "none";
+
+            noButton.classList.remove("dodging");
+            void noButton.offsetWidth;
+            noButton.classList.add("dodging");
+        }
+
+        noButton.addEventListener("mouseenter", moveNoButton);
+
+        noButton.addEventListener("touchstart", function(event) {
+            event.preventDefault();
+            moveNoButton();
+        }, { passive: false });
+
+        noButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            moveNoButton();
+        });
+
+        // Show the happy screen.
+        yesButton.addEventListener("click", function() {
+            showScreen(successScreen);
+            createCelebration();
+        });
+
+        // Floating hearts in the background.
+        const heartSymbols = ["♡", "♥", "💕", "💗", "💖"];
+
+        function createFloatingHeart() {
+            const heart = document.createElement("div");
+
+            heart.className = "floating-heart";
+            heart.textContent =
+                heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = (15 + Math.random() * 17) + "px";
+            heart.style.animationDuration = (7 + Math.random() * 7) + "s";
+
+            document.body.appendChild(heart);
+
+            heart.addEventListener("animationend", function() {
+                heart.remove();
+            });
+        }
+
+        for (let i = 0; i < 12; i++) {
+            setTimeout(createFloatingHeart, i * 650);
+        }
+
+        setInterval(createFloatingHeart, 1300);
+
+        // Fluttershys fly up when Yes is clicked.
+        function createCelebration() {
+            for (let i = 0; i < 18; i++) {
+                const pony = document.createElement("img");
+
+                pony.src = "fluttershyjumping.png";
+                pony.alt = "";
+                pony.className = "celebration-pony";
+
+                pony.style.left = Math.random() * 100 + "vw";
+                pony.style.animationDelay = Math.random() * 2 + "s";
+
+                const size = 30 + Math.random() * 28;
+                pony.style.width = size + "px";
+                pony.style.height = size + "px";
+
+                document.body.appendChild(pony);
+
+                pony.addEventListener("animationend", function() {
+                    pony.remove();
+                });
+            }
+        }
+    </script>
+
+</body>
+</html>
